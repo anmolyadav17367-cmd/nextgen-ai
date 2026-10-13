@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>NextGen AI</title>
+<style>
+body {
+  margin: 0;
+  padding: 20px;
+  background: #0b1020;
+  color: white;
+  font-family: Arial, sans-serif;
+  text-align: center;
+}
+h1 { color: #a78bfa; font-size: 38px; }
+p { color: #cbd5e1; }
+.tools {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  max-width: 500px;
+  margin: 25px auto;
+}
+button {
+  padding: 16px;
+  border: 1px solid #51417d;
+  border-radius: 12px;
+  background: #17213a;
+  color: white;
+  cursor: pointer;
+}
+textarea {
+  width: 90%;
+  max-width: 450px;
+  height: 90px;
+  padding: 12px;
+  border-radius: 10px;
+}
+#result {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  margin: 20px auto;
+  max-width: 500px;
+}
+</style>
+</head>
+<body>
+
+<h1>✦ NextGen AI</h1>
+<p>Your All-in-One AI Studio</p>
+
+<div class="tools">
+<button onclick="choose('AI Chat')">🤖 AI Chat</button>
+<button onclick="choose('AI Image')">🎨 AI Image</button>
+<button onclick="choose('AI Video')">🎬 AI Video</button>
+<button onclick="choose('AI Writer')">✍️ AI Writer</button>
+</div>
+
+<h2 id="heading">Welcome!</h2>
+
+<textarea id="prompt"
+placeholder="Type your idea here..."></textarea>
+<br><br>
+<button onclick="generate()">Get Started →</button>
+
+<div id="result"></div>
+
+<script>
+let mode = "AI Chat";
+
+function choose(name) {
+  mode = name;
+  document.getElementById("heading").innerText = name;
+  document.getElementById("prompt").placeholder =
+    "Enter your " + name + " prompt...";
+  document.getElementById("result").innerText = "";
+}
+
+function generate() {
+  let text = document.getElementById("prompt").value.trim();
+
+  if (!text) {
+    document.getElementById("result").innerText =
+      "Please enter your idea first.";
+    return;
+  }
+
+  let message = "";
+
+  if (mode === "AI Chat") {
+    message = "Your question: " + text +
+      "\n\nDemo mode: A real AI API is needed for AI answers.";
+  } else if (mode === "AI Image") {
+    message = "Image prompt: " + text +
+      "\n\nThis creates a text prompt, not an actual image.";
+  } else if (mode === "AI Video") {
+    message = "Video idea: " + text +
+      "\n\nConnect a video-generation service to create videos.";
+  } else {
+    message = "Writing topic: " + text +
+      "\n\nA live AI service is needed for complete AI writing.";
+  }
+
+  document.getElementById("result").innerText = message;
+}
+</script>
+
+</body>
+</html>
