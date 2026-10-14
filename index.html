@@ -77,33 +77,53 @@ function choose(name) {
   document.getElementById("result").innerText = "";
 }
 
-function generate() {
-  let text = document.getElementById("prompt").value.trim();
+
+async function generate() {
+  const text = document.getElementById("prompt").value.trim();
+  const result = document.getElementById("result");
 
   if (!text) {
-    document.getElementById("result").innerText =
-      "Please enter your idea first.";
+    result.innerText = "Please enter your idea first.";
     return;
   }
 
-  let message = "";
-
   if (mode === "AI Chat") {
-    message = "Your question: " + text +
-      "\n\nDemo mode: A real AI API is needed for AI answers.";
-  } else if (mode === "AI Image") {
-    message = "Image prompt: " + text +
-      "\n\nThis creates a text prompt, not an actual image.";
-  } else if (mode === "AI Video") {
-    message = "Video idea: " + text +
-      "\n\nConnect a video-generation service to create videos.";
-  } else {
-    message = "Writing topic: " + text +
-      "\n\nA live AI service is needed for complete AI writing.";
+    result.innerText = "NextGen AI is thinking...";
+
+    try {
+      const response = await fetch(
+        "https://nextgen-ai-backend.anmolyadav17367.workers.dev",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ message: text })
+        }
+      );
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || "AI request failed");
+      }
+
+      result.innerText = data.reply || "No reply received.";
+    } catch (error) {
+      result.innerText =
+        "AI could not respond. Please try again.";
+    }
+
+    return;
   }
 
-  document.getElementById("result").innerText = message;
+    if (mode === "AI Image") {
+    result.innerText = "AI Image will be connected next.";
+  } else if (mode === "AI Video") {
+    result.innerText = "AI Video will be connected next.";
+  } else {
+    result.innerText = "AI Writer will be connected next.";
+  }
 }
+      
 </script>
 
 </body>
