@@ -108,9 +108,8 @@ async function generate() {
 
       result.innerText = data.reply || "No reply received.";
     } catch (error) {
-      result.innerText =
-        "AI could not respond. Please try again.";
-    }
+  result.innerText = error.message || "Unknown error";
+  }
 
     return;
   }
